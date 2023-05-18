@@ -2,13 +2,11 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       # get 'books/index'
-      # get 'books/new'
-      # post 'books/new'
-      # get 'books/edit'
-      # get 'books/show'
-      # post 'books/create'
 
       resources :books, only: [:index, :new, :edit, :show, :destroy, :create, :update]
+      # resources :users, only: [:login, :signup]
+      post "users/login"
+      post "users/signup"
     end
   end
   # root 'books#index'
