@@ -1,4 +1,7 @@
 class Api::V1::BooksController < ApplicationController
+  # before_action :authentication
+  before_action :admin_logged_in? , only: [:new, :edit, :show, :destroy, :update]
+
   def index
     @books = Book.all 
     render json: @books, status: :ok
@@ -62,6 +65,15 @@ class Api::V1::BooksController < ApplicationController
     end
   end
 
+  def admin_logged_in?
+    if !current_user
+      render json: {message: "You need to login as an Admin first."} , status: :unauthorized
+    elsif current_user and current_user.role == 1
+      render json: {message: "Admin Conformed."}, action: "update" , status: :ok
+    else 
+      render json: {message: "current user is not an Admin"} , status: :unauthorized
+    end
+  end
 
   private
 
