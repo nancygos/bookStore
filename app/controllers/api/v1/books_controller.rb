@@ -15,13 +15,15 @@ class Api::V1::BooksController < ApplicationController
   end
 
   def show
+    # id as a hidden param pass hoti hai
     @book = Book.find(params[:id])
 
     if @book
       render json: @book, status: 200
     else
       render json: {
-        error: "Book not found."
+        error: "Book not found.", 
+        status: :unauthorized
       }
     end
   end
@@ -69,7 +71,7 @@ class Api::V1::BooksController < ApplicationController
     if !current_user
       render json: {message: "You need to login as an Admin first."} , status: :unauthorized
     elsif current_user and current_user.role == 1
-      render json: {message: "Admin Conformed."}, action: "update" , status: :ok
+      true
     else 
       render json: {message: "current user is not an Admin"} , status: :unauthorized
     end

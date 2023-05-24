@@ -26,16 +26,12 @@ class ApplicationController < ActionController::API
         end
     end
 
-    # facing error not able to find current user
     def current_user
         if decoded_token
             # data = decoded_token
             user_data = decoded_token[0]["user_data"]
             user = User.find_by(id: user_data)
-            # user = User.find_by(id: data[:user_data])
             #   user = User.find_by(id: data[:user_id])
-            #   user = User.find(data[:user_id])
-            #   session = Session.search(data[:user_id], data[:token])
             if user
                 @current_user ||= user
             end
@@ -52,6 +48,25 @@ class ApplicationController < ActionController::API
             end
         end
     end
+
+    def current_cart
+		Cart.find(session[:cart_id])
+	    rescue ActiveRecord::RecordNotFound
+		cart = Cart.create
+		session[:cart_id] = cart.id
+		cart
+	end
+
+    # find current cart with token
+    # def current_cart
+    #     if decoded_token
+    #         cart_data = decoded_token[0]["user_data"]
+    #         cart = Cart.find_by(id: cart_data)
+    #         if cart
+    #             @current_cart ||= cart
+    #         end
+    #     end
+    # end
 
 end
 

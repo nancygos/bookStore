@@ -28,8 +28,14 @@ class Api::V1::UsersController < ApplicationController
 
     def logout
         if current_user
-            session.delete(:user_id)
-            render json: {message: "Admin logged out successfuly."}
+            if current_user.role == 1
+                session.delete(:user_id)
+                render json: {message: "Admin logged out successfuly."}
+            else
+                render json: {
+                    message:"Current user is not an Admin. Login as Admin first"
+                }
+            end
         end
     end
 
