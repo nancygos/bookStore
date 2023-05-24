@@ -44,9 +44,10 @@ class Api::V1::CartsController < ApplicationController
   end
 
   def destroy
-    @cart = Cart.find(params[:id])
-    if @cart.destroy
-      # session.delete(:cart_id)
+    @cart = Cart.find_by(id: params[:id])
+    if @cart
+      @cart.destroy
+      # session.delete(:cart_id)->with token
       render json: {message: "Cart is destroyed"} , status: :ok
     else
       render json: {message: "There is no cart present."}

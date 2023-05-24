@@ -55,12 +55,9 @@ class Api::V1::BooksController < ApplicationController
   def destroy
     @book = Book.find(params[:id])
 
-    # return header 
     if @book.destroy
-      # head(:ok) 
       render json: "Book has beed deleted."
     else
-      # head(:unprocessable_entity)
       render json: {
         error: "Cannot be deleted."
       }
