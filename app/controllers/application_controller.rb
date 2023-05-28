@@ -49,11 +49,10 @@ class ApplicationController < ActionController::API
         end
     end
 
-    def current_cart
-		Cart.find(session[:cart_id])
+    def current_cart(cart_id)
+        cart = Cart.find_by(id: cart_id)
 	    rescue ActiveRecord::RecordNotFound
-		cart = Cart.create
-		session[:cart_id] = cart.id
+            render json: {error: "no cart with cart id #{cart_id} is present."}
 		cart
 	end
 

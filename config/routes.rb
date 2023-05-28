@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       # get 'order_items/index'
-      resources :order_items , only: [:index, :new, :edit, :show, :create, :update, :destroy]
+      post 'order_items/create', to: 'order_items#create'
+
+      resources :order_items , only: [:index, :new, :edit, :show, :update, :destroy]
     end
   end
   namespace :api do

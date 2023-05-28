@@ -18,6 +18,7 @@ class Api::V1::OrderItemsController < ApplicationController
       render json: @order_item , status: :ok
     else
       render json: {error: "Order doesnot exist."} , status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -34,13 +35,14 @@ class Api::V1::OrderItemsController < ApplicationController
   end
 
   def create
-    @cart = current_cart
-    @product = Book.find_by(id: params[:id])
+    @cart = current_cart(params[:cart_id] )
+    # @acart = Cart.find_by(id: params[:cart_id])
+    @product = Book.find_by(id: params[:book_id])
 
     @order_item = @cart.add_product(@product.id)  # add_product method in model cart
 
     if @order_item.save
-      render json: action: 'show' , status: :ok
+      render json: {:show => "show"}, status: :ok
     else
       render json: {error: "Book cannot be added"}
     end
@@ -57,6 +59,7 @@ class Api::V1::OrderItemsController < ApplicationController
   private
 
   def order_item_params
-    param.permit(:cart_id, :quantitiy, :book_id)
+    params.permit(:cart_id, :quantitiy, :book_id)
   end
+
 end
