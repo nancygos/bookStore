@@ -12,7 +12,8 @@ class Api::V1::CartsController < ApplicationController
     @cart = Cart.find(params[:id])
 
     if @cart
-      render json: @cart
+      render json: @cart , status: :ok
+      session[:amount] = cart.total_price
     else 
       render json: {error: "This cart id doesnot exist."} , status: :unprocessable_entity
     end
@@ -37,7 +38,7 @@ class Api::V1::CartsController < ApplicationController
 
     if @cart.save
       # render json: {token: token, message: "Cart is created successfully. This token can be used to find current cart."} , status: :ok
-      render json: {message: "Cart is created successfully."} , status: :ok
+      render json: {message: "Cart is created successfully with id: #{@cart.id}."} , status: :ok
     else
       render json: {error: "Cart can not be created"} , status: :unprocessable_entity
     end
@@ -48,10 +49,17 @@ class Api::V1::CartsController < ApplicationController
     if @cart
       @cart.destroy
       # session.delete(:cart_id)->with token
-      render json: {message: "Cart is destroyed"} , status: :ok
+      render json: {message: "Cart is destroyed with id: #{@cart.id}"} , status: :ok
     else
-      render json: {message: "There is no cart present."}
+      render json: {message: "There is no cart present with id: #{params[:id]} ."}
     end
+  end
+
+  # def checkout
+  #   @cart = Cart.find_by(id: params[:id])
+
+  #   if @cart
+  #     amount_to_charge = 
   end
 
   private

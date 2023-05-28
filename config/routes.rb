@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      get 'order_items/index'
-      get 'order_items/new'
-      get 'order_items/show'
-      get 'order_items/edit'
+      # get 'order_items/index'
+      resources :order_items , only: [:index, :new, :edit, :show, :create, :update, :destroy]
     end
   end
   namespace :api do
