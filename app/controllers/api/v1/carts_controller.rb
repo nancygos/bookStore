@@ -9,11 +9,11 @@ class Api::V1::CartsController < ApplicationController
   end
 
   def show
-    @cart = Cart.find(params[:id])
+    @cart = Cart.find_by(id: params[:id])
 
     if @cart
       render json: @cart , status: :ok
-      session[:amount] = cart.total_price
+      # session[:amount] = cart.total_price
     else 
       render json: {error: "This cart id doesnot exist."} , status: :unprocessable_entity
     end
@@ -55,11 +55,15 @@ class Api::V1::CartsController < ApplicationController
     end
   end
 
-  # def checkout
-  #   @cart = Cart.find_by(id: params[:id])
+  def checkout
+    @cart = Cart.find_by(id: params[:id])
 
-  #   if @cart
-  #     amount_to_charge = 
+    if @cart
+      amount_to_charge = @cart.total_price
+      render json: {message: "Order placed successfully of total ammount Rs #{amount_to_charge}."},  status: :ok
+    else
+      render json: {error: "Cart id does not exit"} , status: :unprocessable_entity
+    end
   end
 
   private

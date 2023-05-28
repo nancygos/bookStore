@@ -1,5 +1,5 @@
 class Cart < ApplicationRecord
-    has_many :order_item , :dependent => :destroy         # if cart destroys order item(all books) is also destroyed
+    has_many :order_items , :dependent => :destroy         # if cart destroys order item(all books) is also destroyed
     
     def add_product(book_id)
         current_item = order_items.find_by_book_id(book_id)

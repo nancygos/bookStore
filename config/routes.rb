@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       # delete 'carts/:id', to: 'carts#destroy'
+      get 'carts/checkout/:id', to: 'carts#checkout'
       resources :carts, only: [:index, :new, :edit, :show, :create, :update, :destroy]
     end
   end
