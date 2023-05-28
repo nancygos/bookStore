@@ -12,8 +12,15 @@ class Api::V1::CartsController < ApplicationController
     @cart = Cart.find_by(id: params[:id])
 
     if @cart
-      render json: @cart , status: :ok
-      # session[:amount] = cart.total_price
+      amount_to_charge = @cart.total_price
+      cart_items = @cart.order_items        #all the items present in cart
+
+      # Rendering multiple things
+      render json: { 
+        :cart => @cart, 
+        :cart_items => cart_items, 
+        :amount_to_charge => amount_to_charge 
+      } , status: :ok
     else 
       render json: {error: "This cart id doesnot exist."} , status: :unprocessable_entity
     end
