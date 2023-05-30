@@ -11,6 +11,7 @@ class Api::V1::OrderItemsController < ApplicationController
     @order_item = OrderItem.new
   end
 
+  # id book id changes or cart id changes new order item is created
   def show
     @order_item = OrderItem.find(params[:id])
 
@@ -42,7 +43,7 @@ class Api::V1::OrderItemsController < ApplicationController
     @order_item = @cart.add_product(@product.id)  # add_product method in model cart
 
     if @order_item.save
-      render json: {:show => "show"}, status: :ok
+      render json: {message: "Book with id #{@product.id} is added in cart with id #{@cart.id}"} , status: :ok
     else
       render json: {error: "Book cannot be added"}
     end
