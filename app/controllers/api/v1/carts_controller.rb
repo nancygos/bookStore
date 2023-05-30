@@ -1,5 +1,6 @@
 class Api::V1::CartsController < ApplicationController
   # before_action :set_cart, only: %i[:show, :edit, :destroy, :update]
+  before_action :user_logged_in? , only: [:checkout, :order_history] 
 
   def index
     @carts = Cart.all
@@ -62,16 +63,37 @@ class Api::V1::CartsController < ApplicationController
     end
   end
 
+
+  def user_logged_in?
+    if current_user
+      if current_user.role == 1
+        render json: {error: "Admin cannot place orders."}, status: :unauthorized
+      elsif current_user.role == 0
+        true
+      end
+
+    else
+      render json: {error:" Login first."}
+    end
+  end
+
+
   def checkout
     @cart = Cart.find_by(id: params[:id])
-
+    # order_placed(@cart.id)
     if @cart
       amount_to_charge = @cart.total_price
-      render json: {message: "Order placed successfully of total ammount Rs #{amount_to_charge}."},  status: :ok
+      render json: {message: "Order placed successfully of total ammount of Rs #{amount_to_charge}."},  status: :ok
     else
       render json: {error: "Cart id does not exit"} , status: :unprocessable_entity
     end
   end
+
+  # #######################################################################################
+  # def order_history
+  #   # placed = @cart.order_placed(cart_id)
+  #   render json: call_order_history
+  # end
 
   private
 
