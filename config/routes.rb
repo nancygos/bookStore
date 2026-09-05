@@ -21,7 +21,15 @@ Rails.application.routes.draw do
       get "users/login"
       get "users/logout"
       post "users/signup"
+      get "books/best_seller_books"
 
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :short_urls, only: [:index, :create, :show, :destroy]
+      get "nancy/:short_code", to: "short_urls#show"
     end
   end
 

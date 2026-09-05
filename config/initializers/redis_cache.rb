@@ -11,7 +11,7 @@ class RedisCache
     redis.get(key)
   end
 
-  def sef.del(key)
+  def self.del(key)
     redis.del(key)
   end
 
