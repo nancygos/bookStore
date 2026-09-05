@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :short_urls, only: [:index, :create, :show, :destroy]
-      get "nancy/:short_code", to: "short_urls#show"
+      get "nancy/:short_code", to: "short_urls#show", as: :nancy_short_url
     end
   end
 

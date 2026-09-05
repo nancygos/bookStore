@@ -1,5 +1,5 @@
 class ShortUrl < ApplicationRecord
-  # here users will be authenticated and will be able to create short urls to promote their books from may be amaxon etc with big url and get shorted url
+  # users will be able to create short urls to promote their books from may be amaxon etc with big url and get shorted url
   belongs_to :user
   validates :long_url, presence: true
   validates :short_code, uniqueness: true
@@ -10,9 +10,9 @@ class ShortUrl < ApplicationRecord
   end
 
   def shortened_code
-    code = SecureRandom.base62(6)
-    while ShortUrl.where(short_code: code).exists?
+    loop do
       code = SecureRandom.base62(6)
+      break unless ShortUrl.where(short_code: code).exists?
     end
     code
   end
