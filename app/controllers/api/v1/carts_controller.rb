@@ -1,4 +1,4 @@
-class Api::V1::CartsController < ApplicationController
+class V1::CartsController < ApplicationController
   # before_action :set_cart, only: %i[:show, :edit, :destroy, :update]
   before_action :user_logged_in? , only: [:checkout, :order_history] 
 

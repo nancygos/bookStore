@@ -1,4 +1,4 @@
-class Api::V1::ShortUrlsController < ApplicationController
+class V1::ShortUrlsController < ApplicationController
   def index
     short_urls = ShortUrl.all
 

@@ -1,4 +1,4 @@
-class Api::V1::BooksController < ApplicationController
+class V1::BooksController < ApplicationController
   # before_action :authentication
   before_action :admin_logged_in? , only: [:new, :edit, :show, :destroy, :update]
 
@@ -72,6 +72,14 @@ class Api::V1::BooksController < ApplicationController
     else 
       render json: {message: "current user is not an Admin"} , status: :unauthorized
     end
+  end
+
+  # using redis cache to store the best seller books
+  def best_seller_books
+    @best_seller_books = Rails.cache.fetch("top_3_books", expires_in: 20.minutes) do
+      Book.joins(:order_items).group(:book_id).order("sum(order_items.quantity) DESC").limit(3).as_json
+    end
+    render json: @best_seller_books, status: :ok
   end
 
   private

@@ -1,4 +1,4 @@
-class Api::V1::OrderItemsController < ApplicationController
+class V1::OrderItemsController < ApplicationController
   # before_action :set_order_item, only: %i[:show, :edit, :update, :destroy] 
 
   def index
