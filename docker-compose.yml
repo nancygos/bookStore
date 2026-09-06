@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    container_name: bookstore-web
+    ports:
+      - "3001:3000"
+    environment:
+      - REDIS_URL=redis://bookstore-redis:6379/0
+    depends_on:
+      - redis
+
+  redis:
+    image: redis/redis-stack:latest
+    container_name: bookstore-redis
+    ports: 
+      - "6380:6379"   # for redis server
+      - "8002:8001"   # for redis dashboard
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
